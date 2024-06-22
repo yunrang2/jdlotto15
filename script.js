@@ -1,11 +1,66 @@
 let selectedNumbers = [];
 let drawCount = 1;
 const selectSound = document.getElementById('selectSound');
+const randomSound = document.getElementById('randomSound');
+const correctSound = document.getElementById('correctSound');
+const failureSound = document.getElementById('failureSound');
+const quadraKillSound = document.getElementById('quadraKillSound');
+const pentaKillSound = document.getElementById('pentaKillSound');
+const crazySound = document.getElementById('crazySound');
+const legendSound = document.getElementById('legendSound');
 
 function playSelectSound() {
     selectSound.currentTime = 0;
     selectSound.volume = 0.8;  // 볼륨을 80%로 설정
     selectSound.play();
+}
+
+function playRandomSound() {
+    randomSound.currentTime = 0;
+    randomSound.volume = 0.8;  // 볼륨을 80%로 설정
+    randomSound.loop = true;   // 반복 재생 설정
+    randomSound.play();
+}
+
+function stopRandomSound() {
+    randomSound.pause();
+    randomSound.currentTime = 0;  // 재생 위치 초기화
+}
+
+function playCorrectSound() {
+    correctSound.currentTime = 0;
+    correctSound.volume = 0.8;  // 볼륨을 80%로 설정
+    correctSound.play();
+}
+
+function playFailureSound() {
+    failureSound.currentTime = 0;
+    failureSound.volume = 0.8;  // 볼륨을 80%로 설정
+    failureSound.play();
+}
+
+function playQuadraKillSound() {
+    quadraKillSound.currentTime = 0;
+    quadraKillSound.volume = 0.8;  // 볼륨을 80%로 설정
+    quadraKillSound.play();
+}
+
+function playPentaKillSound() {
+    pentaKillSound.currentTime = 0;
+    pentaKillSound.volume = 0.8;  // 볼륨을 80%로 설정
+    pentaKillSound.play();
+}
+
+function playCrazySound() {
+    crazySound.currentTime = 0;
+    crazySound.volume = 0.8;  // 볼륨을 80%로 설정
+    crazySound.play();
+}
+
+function playLegendSound() {
+    legendSound.currentTime = 0;
+    legendSound.volume = 0.8;  // 볼륨을 80%로 설정
+    legendSound.play();
 }
 
 function selectNumber(element) {
@@ -102,6 +157,8 @@ function startRandomNumberGeneration() {
     let currentIndex = 0;
     const generatedNumbers = new Set();
 
+    playRandomSound();  // 효과음 재생
+
     function generateNumber() {
         if (currentIndex < randomNumbers.length) {
             let interval = setInterval(() => {
@@ -119,6 +176,7 @@ function startRandomNumberGeneration() {
                 if (selectedNumbers.includes(finalNumber)) {
                     randomNumbers[currentIndex].classList.add('highlight');
                     userNumbers[selectedNumbers.indexOf(finalNumber)].classList.add('highlight');
+                    playCorrectSound();  // 선택한 숫자와 일치할 때 효과음 재생
                 }
                 randomNumbers[currentIndex].classList.add('number-animate');
                 currentIndex++;
@@ -144,7 +202,11 @@ function startRandomNumberGeneration() {
             generatedNumbers.add(finalBonusNumber);
             bonusDiv.textContent = finalBonusNumber;
             bonusDiv.classList.add('number-animate');
+            if (selectedNumbers.includes(finalBonusNumber)) {
+                playCorrectSound();  // 보너스 번호가 선택한 숫자와 일치할 때 효과음 재생
+            }
             checkMatches(finalBonusNumber);
+            stopRandomSound();  // 랜덤 효과음 중지
         }, 1000);
     }
 
@@ -160,26 +222,30 @@ function checkMatches(finalBonusNumber) {
     switch (matchedNumbers.length) {
         case 6:
             matchResultText = '1등: 당첨번호 6개 숫자 일치!';
+            playLegendSound();  // 1등 효과음 재생
             break;
         case 5:
             if (bonusMatch) {
                 matchResultText = '2등: 당첨번호 5개 숫자 일치 + 보너스 숫자 일치!';
+                playCrazySound();  // 2등 효과음 재생
             } else {
                 matchResultText = '3등: 당첨번호 5개 숫자 일치!';
+                playPentaKillSound();  // 3등 효과음 재생
             }
             break;
         case 4:
             matchResultText = '4등: 당첨번호 4개 숫자 일치!';
-            break;
-        case 3:
-            matchResultText = '5등: 당첨번호 3개 숫자 일치!';
+            playQuadraKillSound();  // 4등 효과음 재생
             break;
         default:
             matchResultText = '꽝!';
+            playFailureSound();  // 꽝 효과음 재생
+            break;
     }
     document.getElementById('matchResult').textContent = matchResultText;
     document.querySelector('.retry-button').classList.remove('hidden');
 }
+
 
 function retry() {
     // 선택된 숫자 초기화
