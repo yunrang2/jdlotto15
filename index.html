@@ -2,12 +2,12 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>죽돌이의 로또 1/15</title>
+    <title>죽돌이의 로또</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>죽돌이의 로또 1/15<button class="info-button" onclick="showInfo()">ⓘ</button></h1>
+        <h1>죽돌이의 로또 <button class="info-button" onclick="showInfo()">ⓘ</button></h1>
         <div id="infoPopup" class="hidden">
             <div class="info-content">
                 <span class="close-button" onclick="closeInfo()">×</span>
@@ -17,7 +17,6 @@
                     <li>2등: 당첨번호 5개 숫자 일치 + 보너스 숫자 일치</li>
                     <li>3등: 당첨번호 5개 숫자 일치</li>
                     <li>4등: 당첨번호 4개 숫자 일치</li>
-                    <li>5등: 당첨번호 3개 숫자 일치</li>
                     <li>나머지는 꽝</li>
                 </ul>
             </div>
@@ -51,7 +50,13 @@
             <p id="matchResult"></p>
             <button class="retry-button hidden" onclick="retry()">다시하기</button>
         </div>
-        <audio id="selectSound" src="https://github.com/yunrang2/upload/raw/master/Coin%201.mp3" volume="0.8"></audio>
+        <audio id="randomSound" src="https://raw.githubusercontent.com/yunrang2/upload/master/slot-machine.mp3" volume="0.8"></audio>
+        <audio id="correctSound" src="https://raw.githubusercontent.com/yunrang2/upload/master/Correct%206.mp3" volume="0.8"></audio>
+        <audio id="failureSound" src="https://raw.githubusercontent.com/yunrang2/upload/master/롤 - 패배.mp3" volume="0.8"></audio>
+        <audio id="quadraKillSound" src="https://raw.githubusercontent.com/yunrang2/upload/master/롤 - 쿼드라킬.mp3" volume="0.8"></audio>
+        <audio id="pentaKillSound" src="https://raw.githubusercontent.com/yunrang2/upload/master/롤 - 펜타킬.mp3" volume="0.8"></audio>
+        <audio id="crazySound" src="https://raw.githubusercontent.com/yunrang2/upload/master/롤 - 미쳐날뛰고있습니다.mp3" volume="0.8"></audio>
+        <audio id="legendSound" src="https://raw.githubusercontent.com/yunrang2/upload/master/롤 - 전설의 출현.mp3" volume="0.8"></audio>
         <div id="inputPopup" class="hidden">
             <div class="input-content">
                 <span class="close-button" onclick="closeInputPopup()">×</span>
