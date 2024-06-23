@@ -1,4 +1,7 @@
 let selectedNumbers = [];
+let gameCount = 1;
+let currentGame = 0;
+let allSelectedNumbers = [];
 let drawCount = 1;
 const selectSound = document.getElementById('selectSound');
 const randomSound = document.getElementById('randomSound');
@@ -11,67 +14,72 @@ const legendSound = document.getElementById('legendSound');
 
 function playSelectSound() {
     selectSound.currentTime = 0;
-    selectSound.volume = 0.8;  // 볼륨을 80%로 설정
-    selectSound.play();
+    selectSound.volume = 0.8;
+    selectSound.play().catch(error => console.error('Error playing select sound:', error));
 }
 
 function playRandomSound() {
     randomSound.currentTime = 0;
-    randomSound.volume = 0.8;  // 볼륨을 80%로 설정
-    randomSound.loop = true;   // 반복 재생 설정
-    randomSound.play();
+    randomSound.volume = 0.8;
+    randomSound.loop = true;
+    randomSound.play().catch(error => console.error('Error playing random sound:', error));
 }
 
 function stopRandomSound() {
     randomSound.pause();
-    randomSound.currentTime = 0;  // 재생 위치 초기화
+    randomSound.currentTime = 0;
 }
 
 function playCorrectSound() {
     correctSound.currentTime = 0;
-    correctSound.volume = 0.8;  // 볼륨을 80%로 설정
-    correctSound.play();
+    correctSound.volume = 0.8;
+    correctSound.play().catch(error => console.error('Error playing correct sound:', error));
 }
 
 function playFailureSound() {
     failureSound.currentTime = 0;
-    failureSound.volume = 0.8;  // 볼륨을 80%로 설정
-    failureSound.play();
+    failureSound.volume = 0.8;
+    failureSound.play().catch(error => console.error('Error playing failure sound:', error));
 }
 
 function playQuadraKillSound() {
     quadraKillSound.currentTime = 0;
-    quadraKillSound.volume = 0.8;  // 볼륨을 80%로 설정
-    quadraKillSound.play();
+    quadraKillSound.volume = 0.8;
+    quadraKillSound.play().catch(error => console.error('Error playing quadra kill sound:', error));
 }
 
 function playPentaKillSound() {
     pentaKillSound.currentTime = 0;
-    pentaKillSound.volume = 0.8;  // 볼륨을 80%로 설정
-    pentaKillSound.play();
+    pentaKillSound.volume = 0.8;
+    pentaKillSound.play().catch(error => console.error('Error playing penta kill sound:', error));
 }
 
 function playCrazySound() {
     crazySound.currentTime = 0;
-    crazySound.volume = 0.8;  // 볼륨을 80%로 설정
-    crazySound.play();
+    crazySound.volume = 0.8;
+    crazySound.play().catch(error => console.error('Error playing crazy sound:', error));
 }
 
 function playLegendSound() {
     legendSound.currentTime = 0;
-    legendSound.volume = 0.8;  // 볼륨을 80%로 설정
-    legendSound.play();
+    legendSound.volume = 0.8;
+    legendSound.play().catch(error => console.error('Error playing legend sound:', error));
+}
+
+function setGameCount(count) {
+    gameCount = count;
+    document.getElementById('gameSelectionScreen').classList.add('hidden');
+    document.getElementById('selectionScreen').classList.remove('hidden');
+    document.getElementById('selectionInstruction').textContent = `게임 ${currentGame + 1} 숫자 6개 선택`;
 }
 
 function selectNumber(element) {
     const number = parseInt(element.textContent);
     
     if (selectedNumbers.includes(number)) {
-        // 이미 선택된 숫자를 다시 클릭하면 선택 해제
         selectedNumbers = selectedNumbers.filter(n => n !== number);
         element.classList.remove('selected');
     } else {
-        // 최대 6개의 숫자만 선택 가능
         if (selectedNumbers.length < 6) {
             selectedNumbers.push(number);
             element.classList.add('selected');
@@ -88,7 +96,6 @@ function selectRandomNumbers() {
     const allNumbers = Array.from({ length: 15 }, (_, i) => i + 1);
     selectedNumbers = [];
 
-    // 모든 숫자 요소의 선택 클래스 제거
     document.querySelectorAll('.number').forEach(el => el.classList.remove('selected'));
 
     while (selectedNumbers.length < 6) {
@@ -96,7 +103,6 @@ function selectRandomNumbers() {
         const randomNumber = allNumbers.splice(randomIndex, 1)[0];
         selectedNumbers.push(randomNumber);
 
-        // 선택된 숫자에 선택 클래스 추가
         const numberElement = document.querySelector(`.number:nth-of-type(${randomNumber})`);
         if (numberElement) {
             numberElement.classList.add('selected');
@@ -109,44 +115,58 @@ function selectRandomNumbers() {
 
 function submitNumbers() {
     if (selectedNumbers.length === 6) {
-        document.getElementById('selectionScreen').classList.add('hidden');
-        document.getElementById('selectionInstruction').classList.add('hidden');
-        document.getElementById('randomButton').classList.add('hidden');
-        document.getElementById('inputButton').classList.add('hidden');
-        document.getElementById('resultScreen').classList.remove('hidden');
-        document.getElementById('resultTitle').textContent = `${drawCount}회차 당첨결과`;
-        startRandomNumberGeneration();
-        drawCount++;
+        allSelectedNumbers.push([...selectedNumbers]);
+        selectedNumbers = [];
+        currentGame++;
+
+        if (currentGame < gameCount) {
+            document.getElementById('selectionInstruction').textContent = `게임 ${currentGame + 1} 숫자 6개 선택`;
+            document.querySelectorAll('.number').forEach(el => el.classList.remove('selected'));
+            document.getElementById('selectedNumbers').textContent = '선택된 숫자: ';
+        } else {
+            document.getElementById('selectionScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            document.getElementById('resultTitle').textContent = `${drawCount}회차 당첨결과`;
+            drawCount++;
+            displaySelectedNumbers();
+            startRandomNumberGeneration();
+        }
     } else {
         alert('6개의 숫자를 모두 선택해 주세요.');
     }
+}
+
+function displaySelectedNumbers() {
+    const resultsDiv = document.getElementById('resultGames');
+    resultsDiv.innerHTML = '';
+
+    allSelectedNumbers.forEach((selectedNumbers, index) => {
+        let gameResultHTML = `<div class="game-result"><h3>게임 ${index + 1}</h3>`;
+        gameResultHTML += '<div class="selected-numbers">';
+
+        selectedNumbers.forEach(num => {
+            gameResultHTML += `<div class="user-number">${num}</div>`;
+        });
+
+        gameResultHTML += '</div></div>';
+        resultsDiv.innerHTML += gameResultHTML;
+    });
 }
 
 function startRandomNumberGeneration() {
     const randomNumbersDiv = document.getElementById('randomNumbers');
     randomNumbersDiv.innerHTML = '';
 
-    const userNumbersDiv = document.getElementById('userNumbers');
-    userNumbersDiv.innerHTML = '';
-
     const bonusNumberDiv = document.getElementById('bonusNumber');
     bonusNumberDiv.innerHTML = '';
 
     const randomNumbers = [];
-    const userNumbers = [];
-
     for (let i = 0; i < 6; i++) {
         const randomDiv = document.createElement('div');
         randomDiv.classList.add('random-number');
         randomDiv.textContent = '?';
         randomNumbersDiv.appendChild(randomDiv);
         randomNumbers.push(randomDiv);
-
-        const userDiv = document.createElement('div');
-        userDiv.classList.add('user-number');
-        userDiv.textContent = selectedNumbers[i];
-        userNumbersDiv.appendChild(userDiv);
-        userNumbers.push(userDiv);
     }
 
     const bonusDiv = document.createElement('div');
@@ -157,7 +177,7 @@ function startRandomNumberGeneration() {
     let currentIndex = 0;
     const generatedNumbers = new Set();
 
-    playRandomSound();  // 효과음 재생
+    playRandomSound();
 
     function generateNumber() {
         if (currentIndex < randomNumbers.length) {
@@ -173,12 +193,8 @@ function startRandomNumberGeneration() {
                 clearInterval(interval);
                 const finalNumber = parseInt(randomNumbers[currentIndex].textContent);
                 generatedNumbers.add(finalNumber);
-                if (selectedNumbers.includes(finalNumber)) {
-                    randomNumbers[currentIndex].classList.add('highlight');
-                    userNumbers[selectedNumbers.indexOf(finalNumber)].classList.add('highlight');
-                    playCorrectSound();  // 선택한 숫자와 일치할 때 효과음 재생
-                }
                 randomNumbers[currentIndex].classList.add('number-animate');
+                highlightMatchingNumbers(finalNumber);
                 currentIndex++;
                 generateNumber();
             }, 1000);
@@ -202,70 +218,114 @@ function startRandomNumberGeneration() {
             generatedNumbers.add(finalBonusNumber);
             bonusDiv.textContent = finalBonusNumber;
             bonusDiv.classList.add('number-animate');
-            if (selectedNumbers.includes(finalBonusNumber)) {
-                playCorrectSound();  // 보너스 번호가 선택한 숫자와 일치할 때 효과음 재생
-            }
+            highlightBonusNumber(finalBonusNumber);
+            stopRandomSound();
             checkMatches(finalBonusNumber);
-            stopRandomSound();  // 랜덤 효과음 중지
         }, 1000);
     }
 
     generateNumber();
 }
 
+function highlightMatchingNumbers(number) {
+    allSelectedNumbers.forEach((selectedNumbers, index) => {
+        if (selectedNumbers.includes(number)) {
+            const gameResultDiv = document.querySelectorAll('.game-result')[index];
+            const numberDivs = gameResultDiv.querySelectorAll('.user-number');
+            numberDivs.forEach(div => {
+                if (parseInt(div.textContent) === number) {
+                    div.classList.add('highlight');
+                    playCorrectSound();
+                }
+            });
+        }
+    });
+}
+
+function highlightBonusNumber(bonusNumber) {
+    allSelectedNumbers.forEach((selectedNumbers, index) => {
+        if (selectedNumbers.includes(bonusNumber)) {
+            const gameResultDiv = document.querySelectorAll('.game-result')[index];
+            const numberDivs = gameResultDiv.querySelectorAll('.user-number');
+            numberDivs.forEach(div => {
+                if (parseInt(div.textContent) === bonusNumber) {
+                    div.classList.add('bonus-highlight');
+                }
+            });
+        }
+    });
+}
+
 function checkMatches(finalBonusNumber) {
     const displayedNumbers = Array.from(document.getElementsByClassName('random-number')).map(div => parseInt(div.textContent));
-    const matchedNumbers = selectedNumbers.filter(number => displayedNumbers.includes(number));
-    const bonusMatch = selectedNumbers.includes(finalBonusNumber);
+    const resultsDiv = document.getElementById('resultGames');
+    let overallResultText = '';
 
-    let matchResultText;
-    switch (matchedNumbers.length) {
-        case 6:
-            matchResultText = '1등: 당첨번호 6개 숫자 일치!';
-            playLegendSound();  // 1등 효과음 재생
-            break;
-        case 5:
-            if (bonusMatch) {
-                matchResultText = '2등: 당첨번호 5개 숫자 일치 + 보너스 숫자 일치!';
-                playCrazySound();  // 2등 효과음 재생
-            } else {
-                matchResultText = '3등: 당첨번호 5개 숫자 일치!';
-                playPentaKillSound();  // 3등 효과음 재생
+    allSelectedNumbers.forEach((selectedNumbers, index) => {
+        const matchedNumbers = selectedNumbers.filter(number => displayedNumbers.includes(number));
+        const bonusMatch = selectedNumbers.includes(finalBonusNumber);
+        let matchResultText;
+        let gameResultHTML = `<div class="game-result"><h3>게임 ${index + 1}</h3>`;
+        gameResultHTML += '<div class="selected-numbers">';
+
+        selectedNumbers.forEach(num => {
+            let className = 'user-number';
+            if (displayedNumbers.includes(num)) {
+                className += ' highlight';
             }
-            break;
-        case 4:
-            matchResultText = '4등: 당첨번호 4개 숫자 일치!';
-            playQuadraKillSound();  // 4등 효과음 재생
-            break;
-        default:
-            matchResultText = '꽝!';
-            playFailureSound();  // 꽝 효과음 재생
-            break;
-    }
-    document.getElementById('matchResult').textContent = matchResultText;
+            if (num === finalBonusNumber) {
+                className += ' bonus-highlight';
+            }
+            gameResultHTML += `<div class="${className}">${num}</div>`;
+        });
+
+        gameResultHTML += '</div>';
+
+        switch (matchedNumbers.length) {
+            case 6:
+                matchResultText = `1등 - 당첨번호 6개 숫자 일치!`;
+                playLegendSound();
+                break;
+            case 5:
+                if (bonusMatch) {
+                    matchResultText = `2등 - 당첨번호 5개 숫자 일치 + 보너스 숫자 일치!`;
+                    playCrazySound();
+                } else {
+                    matchResultText = `3등 - 당첨번호 5개 숫자 일치!`;
+                    playPentaKillSound();
+                }
+                break;
+            case 4:
+                matchResultText = `4등 - 당첨번호 4개 숫자 일치!`;
+                playQuadraKillSound();
+                break;
+            default:
+                matchResultText = `꽝!`;
+                playFailureSound();
+                break;
+        }
+
+        gameResultHTML += `<p>${matchResultText}</p></div>`;
+        overallResultText += gameResultHTML;
+    });
+
+    resultsDiv.innerHTML = overallResultText;
     document.querySelector('.retry-button').classList.remove('hidden');
 }
 
-
 function retry() {
-    // 선택된 숫자 초기화
     selectedNumbers = [];
+    allSelectedNumbers = [];
+    currentGame = 0;
     document.getElementById('selectedNumbers').textContent = '선택된 숫자: ';
-
-    // 화면 상태 초기화
     document.querySelectorAll('.number').forEach(el => el.classList.remove('selected'));
-    document.getElementById('selectionScreen').classList.remove('hidden');
-    document.getElementById('selectionInstruction').classList.remove('hidden');
-    document.getElementById('randomButton').classList.remove('hidden');
-    document.getElementById('inputButton').classList.remove('hidden');
+    document.getElementById('selectionScreen').classList.add('hidden');
     document.getElementById('resultScreen').classList.add('hidden');
     document.querySelector('.retry-button').classList.add('hidden');
-
-    // 결과 화면 초기화
+    document.getElementById('gameSelectionScreen').classList.remove('hidden');
     document.getElementById('randomNumbers').innerHTML = '';
-    document.getElementById('userNumbers').innerHTML = '';
     document.getElementById('bonusNumber').innerHTML = '';
-    document.getElementById('matchResult').textContent = '';
+    document.getElementById('resultGames').innerHTML = '';
 }
 
 // 팝업 창을 여는 함수
@@ -299,10 +359,7 @@ function submitInputNumbers() {
 
     selectedNumbers = numbers;
 
-    // 모든 숫자 요소의 선택 클래스 제거
     document.querySelectorAll('.number').forEach(el => el.classList.remove('selected'));
-
-    // 선택된 숫자에 선택 클래스 추가
     selectedNumbers.forEach(num => {
         const numberElement = document.querySelector(`.number:nth-of-type(${num})`);
         if (numberElement) {
