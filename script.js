@@ -12,6 +12,26 @@ const pentaKillSound = document.getElementById('pentaKillSound');
 const crazySound = document.getElementById('crazySound');
 const legendSound = document.getElementById('legendSound');
 
+document.addEventListener('DOMContentLoaded', () => {
+    const footerText = document.getElementById('footer-text');
+    const footer = document.getElementById('footer');
+    const messages = [
+        'made by a <span class="highlight">다원잉♥죽돌잉</span>',
+        '미션판 등 게임 제작 문의는 카카오톡 <span class="highlight">v_remind2</span>'
+    ];
+
+    let messageIndex = 0;
+    setInterval(() => {
+        footer.classList.add('fade-out');
+        setTimeout(() => {
+            messageIndex = (messageIndex + 1) % messages.length;
+            footerText.innerHTML = messages[messageIndex];
+            footer.classList.remove('fade-out');
+            footer.classList.add('fade-in');
+        }, 1000); // 1 second for fade-out
+    }, 10000); // 10000ms = 10 seconds
+});
+
 function playSelectSound() {
     selectSound.currentTime = 0;
     selectSound.volume = 0.8;
@@ -259,6 +279,7 @@ function highlightBonusNumber(bonusNumber) {
 function checkMatches(finalBonusNumber) {
     const displayedNumbers = Array.from(document.getElementsByClassName('random-number')).map(div => parseInt(div.textContent));
     const resultsDiv = document.getElementById('resultGames');
+    resultsDiv.innerHTML = '';
     let overallResultText = '';
 
     allSelectedNumbers.forEach((selectedNumbers, index) => {
