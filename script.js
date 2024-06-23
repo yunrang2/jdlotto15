@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const footerText = document.getElementById('footer-text');
     const footer = document.getElementById('footer');
     const messages = [
-        'made by a <span class="highlight">다원잉♥죽돌잉</span>',
+        'made by a <span class="highlight">죽돌잉</span>',
         '미션판 등 게임 제작 문의는 카카오톡 <span class="highlight">v_remind2</span>'
     ];
 
