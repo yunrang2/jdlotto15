@@ -270,19 +270,22 @@ button {
 }
 
 #footer {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: black; /* 배경을 검은색으로 설정 */
     padding: 10px 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     font-family: 'HakgyoansimSamulhamR', Arial, sans-serif; /* 푸터에 지정된 폰트 적용 */
+    position: relative; /* 푸터를 콘텐츠의 맨 아래에 위치 */
+    margin-top: 20px;
+    color: white; /* 기본 글씨색을 하얀색으로 설정 */
 }
 
-.highlight {
-    color: rgb(251, 255, 0);
+#footer p {
+    color: white; /* 명확하게 흰색으로 설정 */
+}
+
+#footer .highlight {
+    color: rgb(238, 255, 0);
     text-shadow: 
         -1px -1px 0 #000,  
          1px -1px 0 #000,
