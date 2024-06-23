@@ -7,7 +7,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>죽돌이의 로또 <button class="info-button" onclick="showInfo()">ⓘ</button></h1>
+        <h1>죽돌이의 로또 6/15<button class="info-button" onclick="showInfo()">ⓘ</button></h1>
         <div id="infoPopup" class="hidden">
             <div class="info-content">
                 <span class="close-button" onclick="closeInfo()">×</span>
@@ -21,14 +21,21 @@
                 </ul>
             </div>
         </div>
-        <div id="selectionHeader">
-            <p id="selectionInstruction">숫자 6개 선택</p>
-            <button class="random-button" id="randomButton" onclick="selectRandomNumbers()">랜덤</button>
-            <button class="input-button" id="inputButton" onclick="showInputPopup()">직접 입력</button>
+        <div id="gameSelectionScreen">
+            <p>게임 수를 선택하세요 (최대 5게임):</p>
+            <button onclick="setGameCount(1)">1</button>
+            <button onclick="setGameCount(2)">2</button>
+            <button onclick="setGameCount(3)">3</button>
+            <button onclick="setGameCount(4)">4</button>
+            <button onclick="setGameCount(5)">5</button>
         </div>
-        <div id="selectionScreen">
+        <div id="selectionScreen" class="hidden">
+            <div id="selectionHeader">
+                <p id="selectionInstruction">숫자 6개 선택</p>
+                <button class="random-button" id="randomButton" onclick="selectRandomNumbers()">랜덤</button>
+                <button class="input-button" id="inputButton" onclick="showInputPopup()">직접 입력</button>
+            </div>
             <div class="grid">
-                <!-- 1부터 15까지의 숫자를 동적으로 생성 -->
                 <script>
                     for (let i = 1; i <= 15; i++) {
                         document.write('<div class="number" onclick="selectNumber(this)">' + i + '</div>');
@@ -39,17 +46,17 @@
             <p id="selectedNumbers">선택된 숫자: </p>
         </div>
         <div id="resultScreen" class="hidden">
-            <h2 id="resultTitle">n회차 당첨결과</h2>
+            <h2 id="resultTitle">당첨결과</h2>
             <div id="randomNumbers" class="random-numbers"></div>
-            <p>선택한 숫자</p>
-            <div id="userNumbers" class="random-numbers"></div>
             <div id="bonusGame">
                 <span>보너스 게임 +</span>
                 <div id="bonusNumber" class="random-numbers"></div>
             </div>
+            <div id="resultGames"></div>
             <p id="matchResult"></p>
             <button class="retry-button hidden" onclick="retry()">다시하기</button>
         </div>
+        <audio id="selectSound" src="https://github.com/yunrang2/upload/raw/master/Coin%201.mp3" volume="0.8"></audio>
         <audio id="randomSound" src="https://raw.githubusercontent.com/yunrang2/upload/master/slot-machine.mp3" volume="0.8"></audio>
         <audio id="correctSound" src="https://raw.githubusercontent.com/yunrang2/upload/master/Correct%206.mp3" volume="0.8"></audio>
         <audio id="failureSound" src="https://raw.githubusercontent.com/yunrang2/upload/master/롤 - 패배.mp3" volume="0.8"></audio>
