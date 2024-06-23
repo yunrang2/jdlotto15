@@ -59,7 +59,7 @@ p {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr); /* 6줄로 표시 */
+    grid-template-columns: repeat(5, 1fr);
     gap: 10px;
     margin: 20px 0;
 }
@@ -178,6 +178,11 @@ button {
     color: white;
 }
 
+.user-number.bonus-highlight {
+    background-color: #2ecc71; /* 초록색 */
+    color: white;
+}
+
 #matchResult {
     margin-top: 20px;
     font-weight: bold;
@@ -246,4 +251,15 @@ button {
 
 .input-content button:hover {
     background-color: #2980b9;
+}
+
+.game-result {
+    margin: 10px 0;
+}
+
+.selected-numbers {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
 }
