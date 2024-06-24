@@ -8,7 +8,6 @@
     src: url('https://raw.githubusercontent.com/yunrang2/upload/master/HakgyoansimSamulhamR.ttf') format('truetype');
 }
 
-/* 기존 폰트 설정 */
 body {
     font-family: 'YeongdeokSnowCrab', Arial, sans-serif;
     text-align: center;
@@ -16,7 +15,11 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    padding: 20px;
+    padding: 0;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
@@ -24,9 +27,14 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: inline-block;
     width: 80%; /* 가로 크기 고정 */
     max-width: 1200px; /* 최대 가로 크기 설정 */
+    margin: 20px auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 컨텐츠를 세로로 중앙 정렬 */
+    box-sizing: border-box; /* padding 포함하여 크기 계산 */
 }
 
 h1 {
@@ -67,9 +75,10 @@ p {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, 40px); /* 고정된 칸 크기 */
     gap: 5px; /* 번호들의 간격을 붙여줌 */
     margin: 20px 0;
+    justify-content: center;
 }
 
 .number {
@@ -267,6 +276,7 @@ button {
     margin: 10px 0;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px; /* 게임 번호와 선택한 숫자 간의 간격을 띄움 */
 }
 
@@ -279,6 +289,7 @@ button {
 
 .result-comparison {
     margin-top: 10px;
+    text-align: center;
 }
 
 #footer {
@@ -287,9 +298,11 @@ button {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     font-family: 'HakgyoansimSamulhamR', Arial, sans-serif; /* 푸터에 지정된 폰트 적용 */
-    position: relative; /* 푸터를 콘텐츠의 맨 아래에 위치 */
-    margin-top: 20px;
     color: white; /* 기본 글씨색을 하얀색으로 설정 */
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box; /* padding 포함하여 크기 계산 */
+    margin-top: auto; /* 푸터를 가장 하단에 고정 */
 }
 
 #footer p {
