@@ -177,9 +177,6 @@ function startRandomNumberGeneration() {
     const randomNumbersDiv = document.getElementById('randomNumbers');
     randomNumbersDiv.innerHTML = '';
 
-    const bonusNumberDiv = document.getElementById('bonusNumber');
-    bonusNumberDiv.innerHTML = '';
-
     const randomNumbers = [];
     for (let i = 0; i < 6; i++) {
         const randomDiv = document.createElement('div');
@@ -192,7 +189,8 @@ function startRandomNumberGeneration() {
     const bonusDiv = document.createElement('div');
     bonusDiv.classList.add('bonus-number');
     bonusDiv.textContent = '?';
-    bonusNumberDiv.appendChild(bonusDiv);
+    randomNumbersDiv.appendChild(document.createTextNode('+'));
+    randomNumbersDiv.appendChild(bonusDiv);
 
     let currentIndex = 0;
     const generatedNumbers = new Set();
@@ -325,8 +323,7 @@ function checkMatches(finalBonusNumber) {
                 playFailureSound();
                 break;
         }
-
-        gameResultHTML += `<p>${matchResultText}</p></div>`;
+        gameResultHTML += `<p class="result-comparison">${matchResultText}</p></div>`;
         overallResultText += gameResultHTML;
     });
 
@@ -391,3 +388,4 @@ function submitInputNumbers() {
     document.getElementById('selectedNumbers').textContent = '선택된 숫자: ' + selectedNumbers.join(', ');
     closeInputPopup();
 }
+
