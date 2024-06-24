@@ -8,6 +8,7 @@
     src: url('https://raw.githubusercontent.com/yunrang2/upload/master/HakgyoansimSamulhamR.ttf') format('truetype');
 }
 
+/* 기존 폰트 설정 */
 body {
     font-family: 'YeongdeokSnowCrab', Arial, sans-serif;
     text-align: center;
@@ -24,6 +25,8 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: inline-block;
+    width: 80%; /* 가로 크기 고정 */
+    max-width: 1200px; /* 최대 가로 크기 설정 */
 }
 
 h1 {
@@ -65,7 +68,7 @@ p {
 .grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    gap: 5px; /* 번호들의 간격을 붙여줌 */
     margin: 20px 0;
 }
 
@@ -78,7 +81,7 @@ p {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, border 0.3s;
 }
 
 .number.selected {
@@ -176,6 +179,7 @@ button {
 .user-number.highlight {
     background-color: #f39c12;
     color: white;
+    border: 2px solid #e67e22;
 }
 
 .bonus-number {
@@ -186,6 +190,7 @@ button {
 .user-number.bonus-highlight {
     background-color: #2ecc71; /* 초록색 */
     color: white;
+    border: 2px solid #27ae60;
 }
 
 #matchResult {
@@ -260,12 +265,19 @@ button {
 
 .game-result {
     margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 게임 번호와 선택한 숫자 간의 간격을 띄움 */
 }
 
 .selected-numbers {
     display: flex;
     gap: 10px;
     justify-content: center;
+    margin-top: 10px;
+}
+
+.result-comparison {
     margin-top: 10px;
 }
 
@@ -285,7 +297,7 @@ button {
 }
 
 #footer .highlight {
-    color: rgb(238, 255, 0);
+    color: red;
     text-shadow: 
         -1px -1px 0 #000,  
          1px -1px 0 #000,
